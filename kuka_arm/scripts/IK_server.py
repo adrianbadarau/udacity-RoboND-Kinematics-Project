@@ -157,8 +157,6 @@ def handle_calculate_IK(req):
             print("Transformation matrices have been saved!!")
             print("-----------------------------------------")
         else:
-            # T0_2 = pickle.load(open("T0_2.p", "rb"))
-            # T3_6 = pickle.load(open("T3_6.p", "rb"))
             p2_0_sym= pickle.load(open("p2_0_sym.p", "rb"))
             R0_3_inv = pickle.load(open("R0_3_inv.p", "rb"))
             R0_g_sym = pickle.load(open("R0_g_sym.p", "rb"))
@@ -230,7 +228,6 @@ def handle_calculate_IK(req):
         print("Inverse kinematics calculation has been done!")
         print "Total time:", round(time.time() - loop_start_time, 4)
         print("-----------------------------------------")
-        # print("R3_6", R3_6)
         print "theta1: ", theta1 * r2d
         print "theta2: ", theta2 * r2d
         print "theta3: ", theta3 * r2d
@@ -238,7 +235,6 @@ def handle_calculate_IK(req):
         print "theta5: ", theta5 * r2d
         print "theta6: ", theta6 * r2d
         rospy.loginfo("\nlength of Joint Trajectory List: %s" % len(joint_trajectory_list))
-        # rospy.loginfo("Px, Py, Pz %s %s %s" , px , py , pz)
         return CalculateIKResponse(joint_trajectory_list)
 
 
