@@ -41,34 +41,6 @@ def handle_calculate_IK(req):
                            [sin(q1) * sin(alpha0), cos(q1) * sin(alpha0),  cos(alpha0),  cos(alpha0) * d1],
                            [0,              0,      0,     1]])
             return T0_1
-
-        # def rot_x(q):
-        #     M1 = Matrix([[0],[0],[0]])
-        #     M2 = Matrix([[0, 0, 0, 1]])
-        #     Rx = Matrix([[  1,      0,       0],
-        #                  [  0, cos(q), -sin(q)],
-        #                  [  0, sin(q),  cos(q)]])
-        #     rot_x = Rx.row_join(M1)
-        #     rot_x = rot_x.col_join(M2)
-        #     return rot_x
-        # def rot_y(q):
-        #     M1 = Matrix([[0],[0],[0]])
-        #     M2 = Matrix([[0, 0, 0, 1]])
-        #     Ry = Matrix([[ cos(q),     0, sin(q)],
-        #                  [      0,     1,      0],
-        #                  [-sin(q),     0, cos(q)]])
-        #     rot_y = Ry.row_join(M1)
-        #     rot_y = rot_y.col_join(M2)
-        #     return rot_y
-        # def rot_z(q):
-        #     M1 = Matrix([[0],[0],[0]])
-        #     M2 = Matrix([[0, 0, 0, 1]])
-        #     Rz = Matrix([[ cos(q),-sin(q), 0],
-        #                  [ sin(q), cos(q), 0],
-        #                  [      0,      0, 1]])
-        #     rot_z = Rz.row_join(M1)
-        #     rot_z = rot_z.col_join(M2)
-        #     return rot_z
         
         def rot_x(q):
             ''' Rotation matrix along x axis'''
@@ -100,10 +72,7 @@ def handle_calculate_IK(req):
             r12, r13 = R[0,1], R[0,2]
             r21, r22, r23 = R[1,0], R[1,1], R[1,2] 
             r32, r33 = R[2,1], R[2,2]
-            # # Euler angles from rotation matrix
-            # q5 = atan2(sqrt(r13**2 + r33**2), r23)
-            # q4 = atan2(r33, -r13)
-            # q6 = atan2(-r22, r21)
+
             if np.abs(r23) is not 1:
                 q5 = atan2(sqrt(r13**2 + r33**2), r23)
                 if sin(q5) < 0:
@@ -180,16 +149,7 @@ def handle_calculate_IK(req):
             T0_3 = simplify(T0_2 * T2_3)
             R0_3 = T0_3[0:3, 0:3]
             R0_3_inv = simplify(R0_3 ** -1)
-            # T0_4 = simplify(T0_3 * T3_4)
-            # T0_5 = simplify(T0_4 * T4_5)
-            # T0_6 = simplify(T0_5 * T5_6)
-            # T0_G = simplify(T0_6 * T6_7)
-            # R_corr = rot_z(pi) * rot_y(-pi/2)
-            #T_total = simplify(T0_G * R_corr)
-            # T3_6 = simplify(T3_4*T4_5*T5_6)
             R0_g_sym = simplify(rot_z(y) * rot_y(p) * rot_x(r))
-            # pickle.dump(T0_2, open("T0_2.p", "wb"))
-            # pickle.dump(T3_6, open("T3_6.p", "wb"))
             pickle.dump(p2_0_sym, open("p2_0_sym.p", "wb"))
             pickle.dump(R0_3_inv, open("R0_3_inv.p", "wb"))
             pickle.dump(R0_g_sym, open("R0_g_sym.p", "wb"))
